@@ -1,3 +1,69 @@
+Notes on this fork of : Fuse Integration Services (FIS) SOAP to REST Proxy Demo
+====================================
+
+## Original Code Location (and credit)
+
+https://github.com/sigreen/rest-soap-transformation
+
+This guy saved my life!
+
+# Overview
+
+This version of the code uses the original globalweather.wsdl. The version I used as a base
+used the DictService.wsdl, I believe because the globalweather soap site went dark or some such.
+I modified back to global service as a proof of concept that I could build my own json->soap
+service. Also, I added soapui to this version to act as the soap server.
+
+
+## build
+
+
+```
+mvn clean install
+mvn generate-sources
+```
+
+## run
+
+
+* the http services runs on 8080
+* the service also uses 8081 for management services, see application.properties
+todo : what is it using 8081 for?
+
+
+```
+mvn spring-boot:run -Dspring.profiles.active=dev
+```
+
+## testing
+
+Once the spring-boot:run is up and servicing, test the whole thing end to end
+
+Because I'm mocking the soap service globalweather, soapui is required
+
+Import project globalweather-soapui-project.xml into SOAPUI
+
+start mock service. It exposes localhost:8082/mockweather soap service.
+
+do a simple test. GetCitiesByCountry TestCase / Test Steps / GetCitiesByCountry
+
+It should return soap message with 'none' for the reply (that is the default response for the mock service).
+At this point you've set up a soap service, and verified that it works.
+
+And finally, do the following in your browser (http://localhost:8080/camel/country/france), and it should
+return json of item: "none". You can check the message log of your mock service to view the soap sent.
+
+
+## install in jboss
+
+todo : No instructions yet on how to install this into jboss
+todo : Have not modified swagger code yet
+
+## end of global weather section
+
+I've left the original notes from the create below
+
+
 Fuse Integration Services (FIS) SOAP to REST Proxy Demo
 ====================================
 
